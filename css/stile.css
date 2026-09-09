@@ -44,8 +44,8 @@
   --parallasse-corsa:120px; /* quanto scorre l'immagine: 0 = parallasse spento */
   --margine:5vw;
   --max:1600px;
-  --misura:88ch;        /* lunghezza massima delle righe di testo */
-  --peso-valore:500;    /* medium sui valori. Alza a 600 se lo vuoi piu' marcato. */
+  --misura:112ch;       /* lunghezza massima delle righe di testo */
+  --etichetta-opacita:.62;  /* quanto sono smorzate le etichette (GENRE, YEAR...) */
 }
 
 /* ---------- Reset ---------- */
@@ -78,6 +78,23 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--bianco);outline-off
   transition:transform .4s var(--anim-easing);
 }
 .testata--nascosta{transform:translateY(-105%)}
+
+/* Velatura sotto l'header: appare solo quando si e' gia' scesi,
+   cosi' in cima alla pagina il fondo resta pulito.
+   Non parte dal nero pieno e sfuma lungo tutta l'altezza. */
+.testata--fissa::before{
+  content:'';position:absolute;inset:-1px 0 auto 0;height:190%;
+  pointer-events:none;opacity:0;
+  transition:opacity .45s ease;
+  background:linear-gradient(180deg,
+    rgba(10,10,10,.62) 0%,
+    rgba(10,10,10,.44) 34%,
+    rgba(10,10,10,.20) 64%,
+    rgba(10,10,10,.06) 84%,
+    rgba(10,10,10,0) 100%);
+}
+.testata--velata::before{opacity:1}
+.testata > *{position:relative;z-index:1}
 .marchio{font-size:var(--testo);line-height:1.4}
 .menu{display:flex;align-items:center;gap:28px}
 .menu a{font-size:var(--testo);letter-spacing:var(--tracking-nav);opacity:.999;transition:opacity .25s ease}
@@ -104,9 +121,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--bianco);outline-off
 /* ---------- Impianto pagina ---------- */
 .pagina{padding:150px var(--margine) 90px;max-width:var(--max);margin:0 auto}
 .intro{max-width:var(--misura);margin-bottom:64px}
-h1,h2{font-size:var(--titolo);font-weight:400;line-height:1.12;margin:0 0 22px}
+h1,h2{font-size:var(--titolo);font-weight:400;line-height:1.12;margin:0 0 22px;text-wrap:balance}
 h3{font-size:var(--testo);font-weight:400;margin:0 0 10px}
-p{margin:0 0 var(--interlinea);max-width:var(--misura)}
+p{margin:0 0 var(--interlinea);max-width:var(--misura);text-wrap:pretty}
 
 /* ---------- Home: video a tutto schermo ---------- */
 .home{height:100svh;overflow:hidden;position:relative}
@@ -169,8 +186,6 @@ p{margin:0 0 var(--interlinea);max-width:var(--misura)}
 .fascia__testo{position:relative;z-index:2;padding:0 var(--margine);max-width:var(--misura)}
 .fascia h2{margin:0 0 14px}
 .fascia .dati{margin:0 0 16px}
-.fascia .dati div{display:block}
-.fascia .dati .etichetta{font-weight:400;opacity:.72}
 .azioni{display:flex;flex-wrap:wrap;gap:26px}
 .azioni a{
   letter-spacing:var(--tracking-nav);
@@ -186,13 +201,36 @@ p{margin:0 0 var(--interlinea);max-width:var(--misura)}
 }
 .fascia .azioni a:hover{border-color:var(--bianco);opacity:.75}
 
+/* ==========================================================
+   TESTI DESCRITTIVI — regole uniche per film, essay, multimedia.
+   La gerarchia e' data dal colore, non dal peso: etichette
+   smorzate, valori in bianco pieno.
+   ========================================================== */
+.dati{
+  margin:0 0 22px;
+  font-size:var(--testo);
+  line-height:calc(var(--interlinea) + 2px);
+}
+.dati div{display:block}
+.dati .etichetta{font-weight:400;opacity:var(--etichetta-opacita)}
+.dati .valore{font-weight:400;opacity:1}
+
+/* "WHAT I DID" resta unito al blocco sopra; lo stacco va solo dopo,
+   verso la sinossi (nei film) o verso i link (in essay e multimedia). */
+.dati .ruolo{margin-bottom:var(--interlinea)}
+
+.sinossi{
+  max-width:var(--misura);
+  margin:0 0 calc(var(--interlinea) * 1.6);
+}
+
 /* ---------- Scheda del singolo film ---------- */
 .pagina:has(.film-video){padding:0 0 90px;max-width:none}
-.film-video{margin:0 0 56px}
+.film-video{margin:0 0 130px}
 .film-video.rivela-img{clip-path:none;opacity:0;transition:opacity var(--anim-durata) ease}
 .film-video.rivela-img.dentro{opacity:1}
 .film-video video,.film-video img{width:100%;height:auto;display:block}
-.film-testo{max-width:var(--misura);margin:0 var(--margine) 56px}
+.film-testo{max-width:var(--misura);margin:0 var(--margine) 140px}
 .altri-film{margin:0 var(--margine)}
 .altri-film .poster-griglia{grid-template-columns:repeat(4,1fr)}
 .film-testo h1{margin-bottom:20px}

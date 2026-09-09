@@ -232,8 +232,9 @@ function renderFilm(slug, contenitore){
 document.addEventListener('DOMContentLoaded', ()=>{
   costruisciTestata();
 
-  // a capo a ogni punto anche nei testi introduttivi e nell'about
-  document.querySelectorAll('.intro p, .about p').forEach(p=>{
+  // a capo a ogni punto solo nei testi introduttivi delle sezioni.
+  // L'about ne resta fuori: e' lungo e a capo continui si legge male.
+  document.querySelectorAll('.intro p').forEach(p=>{
     p.innerHTML = aCapoAiPunti(p.innerHTML);
   });
 

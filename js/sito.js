@@ -232,11 +232,6 @@ function renderFilm(slug, contenitore){
 document.addEventListener('DOMContentLoaded', ()=>{
   costruisciTestata();
 
-  // a capo a ogni punto solo nei testi introduttivi delle sezioni.
-  // L'about ne resta fuori: e' lungo e a capo continui si legge male.
-  document.querySelectorAll('.intro p').forEach(p=>{
-    p.innerHTML = aCapoAiPunti(p.innerHTML);
-  });
 
   const g = document.getElementById('galleria');
   if(g) renderGalleria(g);

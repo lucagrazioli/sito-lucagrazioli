@@ -1,0 +1,274 @@
+/* ==========================================================
+   lucagrazioli.eu — foglio di stile principale
+   Valori rilevati dal sito Squarespace originale.
+   ========================================================== */
+
+/* ---------- Switzer (sostituto di Aktiv Grotesk) ---------- */
+/* Switzer variabile — i due file stanno in /font/ */
+@font-face{
+  font-family:'Switzer';
+  src:url('../font/Switzer-Variable.woff2') format('woff2');
+  font-weight:100 900; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:'Switzer';
+  src:url('../font/Switzer-VariableItalic.woff2') format('woff2');
+  font-weight:100 900; font-style:italic; font-display:swap;
+}
+
+/* ---------- Variabili: i valori da ritoccare stanno qui ---------- */
+:root{
+  --nero:#0A0A0A;
+  --bianco:#FFFFFF;
+
+  --font:'Switzer','Helvetica Neue',Arial,sans-serif;
+
+  --testo:15.63px;
+  --interlinea:23.44px;
+  --tracking-nav:0.78px;
+  --titolo:44.66px;
+
+  /* ↓↓↓ REGOLA QUI IL TIMING DELLE ANIMAZIONI ↓↓↓
+     Confronta con il sito vecchio e cambia questi due numeri. */
+  --anim-durata:0.7s;
+  --anim-easing:cubic-bezier(0.22,0.61,0.36,1);
+  --anim-scarto:0.08s;   /* ritardo progressivo tra elementi vicini */
+
+  --scostamento:16.42px; /* traslazione dei testi in entrata */
+
+  --gutter:16px;
+  --gap-poster:var(--gutter);    /* stessa distanza delle foto in Photography */
+  --altezza-poster:calc(100svh - 190px);              /* quanto sono alti i poster */
+  --larghezza-poster:calc(var(--altezza-poster) * 2 / 3);  /* deriva dal formato 2:3 */
+  --altezza-fascia:547px;   /* altezza delle fasce multimedia/essay */
+  --parallasse-corsa:120px; /* quanto scorre l'immagine: 0 = parallasse spento */
+  --margine:5vw;
+  --max:1600px;
+  --misura:88ch;        /* lunghezza massima delle righe di testo */
+  --peso-valore:500;    /* medium sui valori. Alza a 600 se lo vuoi piu' marcato. */
+}
+
+/* ---------- Reset ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--nero);
+  color:var(--bianco);
+  font-family:var(--font);
+  font-size:var(--testo);
+  line-height:var(--interlinea);
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--bianco);outline-offset:3px}
+
+/* ---------- Header ---------- */
+.testata{
+  position:absolute;top:0;left:0;right:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:var(--gutter);
+  padding:28px var(--margine);
+}
+.testata--fissa{
+  position:fixed;background:transparent;
+  transition:transform .4s var(--anim-easing);
+}
+.testata--nascosta{transform:translateY(-105%)}
+.marchio{font-size:var(--testo);line-height:1.4}
+.menu{display:flex;align-items:center;gap:28px}
+.menu a{font-size:var(--testo);letter-spacing:var(--tracking-nav);opacity:.999;transition:opacity .25s ease}
+.menu a:hover,.menu a[aria-current=page]{opacity:.55}
+.social{display:flex;align-items:center;gap:16px}
+.social svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6}
+.social a{opacity:.75;transition:opacity .25s ease}
+.social a:hover{opacity:1}
+
+/* Hamburger a due linee, come nell'originale */
+.apri-menu{
+  display:none;background:none;border:0;padding:10px 0;cursor:pointer;
+  width:34px;height:30px;position:relative;
+}
+.apri-menu span{
+  position:absolute;left:0;width:34px;height:1.6px;background:var(--bianco);
+  transition:transform .25s cubic-bezier(.2,.6,.3,1), width .25s cubic-bezier(.2,.6,.3,1);
+}
+.apri-menu span:nth-child(1){top:11px}
+.apri-menu span:nth-child(2){top:18px}
+.apri-menu[aria-expanded=true] span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
+.apri-menu[aria-expanded=true] span:nth-child(2){transform:translateY(-3.5px) rotate(-45deg)}
+
+/* ---------- Impianto pagina ---------- */
+.pagina{padding:150px var(--margine) 90px;max-width:var(--max);margin:0 auto}
+.intro{max-width:var(--misura);margin-bottom:64px}
+h1,h2{font-size:var(--titolo);font-weight:400;line-height:1.12;margin:0 0 22px}
+h3{font-size:var(--testo);font-weight:400;margin:0 0 10px}
+p{margin:0 0 var(--interlinea);max-width:var(--misura)}
+
+/* ---------- Home: video a tutto schermo ---------- */
+.home{height:100svh;overflow:hidden;position:relative}
+.home video,.home .fallback{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;
+}
+.home .fallback{background:var(--nero)}
+
+/* ---------- Photography: margini laterali = spazio fra le foto ---------- */
+.pagina:has(.masonry){--margine:var(--gutter);max-width:none}
+.pagina:has(.masonry) .intro{padding:0 calc(5vw - var(--gutter))}
+
+/* ---------- Photography: masonry ---------- */
+.masonry{columns:3;column-gap:var(--gutter)}
+.masonry figure{margin:0 0 var(--gutter);break-inside:avoid}
+.masonry img{width:100%;height:auto}
+
+/* ---------- Film: griglia a tutta larghezza, poster grandi ---------- */
+.pagina:has(.poster-griglia):not(:has(.film-video)){--margine:var(--gap-poster);max-width:none}
+
+/* ---------- Film: griglia poster ----------
+   La larghezza di colonna deriva dall'altezza disponibile: i poster
+   sono alti quanto la finestra permette e vanno a capo da soli. */
+.poster-griglia{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:var(--gap-poster);
+  /* non supera mai l'altezza utile, e si centra da sola */
+  width:min(100%, calc(var(--larghezza-poster) * 4 + var(--gap-poster) * 3));
+  margin-inline:auto;
+}
+.poster{display:block}
+.poster figure{margin:0}
+.poster img{width:100%;aspect-ratio:2/3;object-fit:cover;transition:opacity .45s ease}
+.poster:hover img{opacity:.6}
+
+/* ==========================================================
+   FASCE full-bleed (Multimedia ed Essay)
+   Immagine a tutta larghezza, alta mezza finestra,
+   tagliata in cover sul punto focale, testo bianco sopra.
+   ========================================================== */
+.pagina:has(.fasce){max-width:none}
+.fasce{margin:0 calc(var(--margine) * -1)}
+.fascia{
+  position:relative;
+  height:var(--altezza-fascia);
+  overflow:hidden;
+  display:flex;align-items:center;
+}
+.fascia__sfondo{position:absolute;inset:0;overflow:hidden}
+.fascia__sfondo img{
+  width:100%;
+  height:calc(100% + var(--parallasse-corsa));
+  position:absolute;top:calc(var(--parallasse-corsa) / -2);left:0;
+  object-fit:cover;
+  will-change:transform;
+}
+.fascia__velo{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,.15) 60%,transparent 100%)}
+.fascia__testo{position:relative;z-index:2;padding:0 var(--margine);max-width:var(--misura)}
+.fascia h2{margin:0 0 14px}
+.fascia .dati{margin:0 0 16px}
+.fascia .dati div{display:block}
+.fascia .dati .etichetta{font-weight:400;opacity:.72}
+.azioni{display:flex;flex-wrap:wrap;gap:26px}
+.azioni a{
+  letter-spacing:var(--tracking-nav);
+  border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:2px;
+  transition:border-color .25s ease,opacity .25s ease;
+}
+.azioni a:hover{border-color:var(--bianco);opacity:.75}
+.fascia .azioni{display:flex;flex-wrap:wrap;gap:24px}
+.fascia .azioni a{
+  letter-spacing:var(--tracking-nav);
+  border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:2px;
+  transition:border-color .25s ease,opacity .25s ease;
+}
+.fascia .azioni a:hover{border-color:var(--bianco);opacity:.75}
+
+/* ---------- Scheda del singolo film ---------- */
+.pagina:has(.film-video){padding:0 0 90px;max-width:none}
+.film-video{margin:0 0 56px}
+.film-video.rivela-img{clip-path:none;opacity:0;transition:opacity var(--anim-durata) ease}
+.film-video.rivela-img.dentro{opacity:1}
+.film-video video,.film-video img{width:100%;height:auto;display:block}
+.film-testo{max-width:var(--misura);margin:0 var(--margine) 56px}
+.altri-film{margin:0 var(--margine)}
+.altri-film .poster-griglia{grid-template-columns:repeat(4,1fr)}
+.film-testo h1{margin-bottom:20px}
+
+/* ---------- About ---------- */
+.about{max-width:var(--misura)}
+.about p{margin-bottom:var(--interlinea)}
+.about em{font-style:italic}
+
+/* ---------- Navigazione precedente/successivo ---------- */
+
+
+/* ---------- Footer ---------- */
+.pie{padding:60px var(--margine) 44px;max-width:var(--max);margin:0 auto}
+.pie a,.pie p{font-size:var(--testo);margin:0 0 4px}
+
+/* ==========================================================
+   ANIMAZIONI
+   Due comportamenti distinti, come nell'originale:
+   .rivela      → testi: salgono di 16.42px sfumando
+   .rivela-img  → immagini: wipe con clip-path dal basso
+   ========================================================== */
+.rivela,.rivela-img{
+  transition-property:transform,opacity,clip-path;
+  transition-duration:var(--anim-durata);
+  transition-timing-function:var(--anim-easing);
+}
+.rivela{opacity:0;transform:translateY(var(--scostamento))}
+.rivela-img{opacity:0;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%)}
+
+.rivela.dentro{opacity:1;transform:translateY(0)}
+.rivela-img.dentro{opacity:1;clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+
+@media (prefers-reduced-motion:reduce){
+  .rivela,.rivela-img{transition:none;opacity:1;transform:none;clip-path:none}
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){
+  .masonry{columns:2}
+  .poster-griglia,.altri-film .poster-griglia{grid-template-columns:repeat(3,1fr)}
+  .scheda-doppia{grid-template-columns:1fr;gap:32px}
+}
+@media (max-width:760px){
+  :root{--titolo:32px;--margine:22px;--gutter:16px;--altezza-fascia:62vh;--parallasse-corsa:60px}
+  .masonry{columns:1}
+  .poster-griglia,.altri-film .poster-griglia{grid-template-columns:1fr;width:100%}
+  .pagina{padding-top:120px}
+  :root{--misura:100%}
+  .menu{
+    position:fixed;inset:0;background:var(--nero);
+    flex-direction:column;align-items:center;justify-content:center;
+    gap:6px;padding:var(--margine);
+    opacity:0;visibility:hidden;
+    transition:opacity .3s ease, visibility .3s;
+  }
+  .menu a{
+    font-size:38px;letter-spacing:normal;line-height:1.55;
+    opacity:0;transform:translateY(var(--scostamento));
+    transition:opacity .4s var(--anim-easing), transform .4s var(--anim-easing);
+  }
+  .menu.aperto{opacity:1;visibility:visible}
+  .menu.aperto a{opacity:1;transform:translateY(0)}
+  .menu.aperto a:nth-child(1){transition-delay:.06s}
+  .menu.aperto a:nth-child(2){transition-delay:.12s}
+  .menu.aperto a:nth-child(3){transition-delay:.18s}
+  .menu.aperto a:nth-child(4){transition-delay:.24s}
+  .menu.aperto a:nth-child(5){transition-delay:.30s}
+
+  .apri-menu{display:block;z-index:30}
+  .social{
+    position:fixed;left:0;right:0;bottom:42px;z-index:29;
+    justify-content:center;gap:26px;
+    opacity:0;visibility:hidden;transition:opacity .3s ease .2s, visibility .3s;
+  }
+  .social svg{width:22px;height:22px}
+  body.menu-aperto .social{opacity:1;visibility:visible}
+  .marchio{z-index:30;position:relative}
+}

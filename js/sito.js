@@ -70,7 +70,7 @@ function costruisciPie(){
   pie.className = 'pie';
   pie.innerHTML = `
     <p class="rivela"><a href="mailto:lucagrazioli.grz@gmail.com">lucagrazioli.grz@gmail.com</a></p>
-    <p class="rivela">© Luca Grazioli ${new Date().getFullYear()}</p>`;
+    <p class="rivela copyright">© Luca Grazioli ${new Date().getFullYear()}</p>`;
   document.body.appendChild(pie);
 }
 

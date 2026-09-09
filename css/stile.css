@@ -245,8 +245,16 @@ p{margin:0 0 var(--interlinea);max-width:var(--misura);text-wrap:pretty}
 
 
 /* ---------- Footer ---------- */
-.pie{padding:60px var(--margine) 44px;max-width:var(--max);margin:0 auto}
-.pie a,.pie p{font-size:var(--testo);margin:0 0 4px}
+.pie{
+  padding:120px 5vw 60px;      /* stesso margine laterale dei testi */
+  max-width:var(--max);margin:0 auto;
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:var(--interlinea);
+}
+.pie a,.pie p{font-size:var(--testo);margin:0}
+.pie a{transition:opacity .25s ease}
+.pie a:hover{opacity:.6}
+.pie .copyright{opacity:.6}
 
 /* ==========================================================
    ANIMAZIONI

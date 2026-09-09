@@ -47,6 +47,8 @@ function costruisciTestata(){
       const y = scrollY;
       if(y > ultimo && y > 160) testata.classList.add('testata--nascosta');
       else testata.classList.remove('testata--nascosta');
+      // la velatura compare solo quando non siamo piu' in cima alla pagina
+      testata.classList.toggle('testata--velata', y > 160);
       ultimo = y;
     }, {passive:true});
   }
@@ -99,6 +101,13 @@ function attivaAnimazioni(){
     document.querySelectorAll('.rivela:not(.dentro), .rivela-img:not(.dentro)')
       .forEach(e=>{ e.style.transitionDelay='0s'; e.classList.add('dentro'); });
   }, 2000);
+}
+
+/* Manda a capo dopo ogni punto fermo, cosi' le righe non dipendono
+   dalla larghezza della finestra e non restano parole orfane.
+   Non tocca i punti dentro i numeri (1.85:1) o le abbreviazioni. */
+function aCapoAiPunti(testo){
+  return testo.replace(/([.!?])\s+(?=[A-Z0-9"'\u201c])/g, '$1<br>');
 }
 
 /* ---------- Mattoncini riutilizzabili ---------- */
@@ -161,7 +170,13 @@ function attivaParallasse(){
 
 /* ---------- Photography ---------- */
 function renderGalleria(contenitore){
-  contenitore.innerHTML = CONTENUTI.photography.map(([file,alt]) => `
+  // mescola le foto: ordine diverso a ogni visita (Fisher-Yates)
+  const foto = CONTENUTI.photography.slice();
+  for(let i = foto.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [foto[i], foto[j]] = [foto[j], foto[i]];
+  }
+  contenitore.innerHTML = foto.map(([file,alt]) => `
     <figure class="rivela-img">
       <img src="${p('img/photography/'+file)}" alt="${alt}" loading="lazy">
     </figure>`).join('');
@@ -196,7 +211,7 @@ function renderFilm(slug, contenitore){
     <div class="film-testo">
       <h1 class="rivela">${f.titolo}</h1>
       ${bloccoDati(f.dati)}
-      <p class="sinossi rivela">${f.sinossi}</p>
+      <p class="sinossi rivela">${aCapoAiPunti(f.sinossi)}</p>
       ${bloccoAzioni(f.azioni)}
     </div>
 
@@ -216,6 +231,11 @@ function renderFilm(slug, contenitore){
 /* ---------- Avvio ---------- */
 document.addEventListener('DOMContentLoaded', ()=>{
   costruisciTestata();
+
+  // a capo a ogni punto anche nei testi introduttivi e nell'about
+  document.querySelectorAll('.intro p, .about p').forEach(p=>{
+    p.innerHTML = aCapoAiPunti(p.innerHTML);
+  });
 
   const g = document.getElementById('galleria');
   if(g) renderGalleria(g);

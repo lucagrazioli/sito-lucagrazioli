@@ -189,7 +189,7 @@ multimedia: [
 
   {titolo:'The Prince of Goldsmiths - Venice', img:'img/multimedia/09_buccellati-venezia.jpg',
    dati:[['GENRE','Immersive Exhibition'],['LENGHT','40’00’’'],['YEAR','2024'],['COUNTRY','Italy'],['WHERE','Oficine 800, Giudecca (Venice)'],['FOR WHOM','Karmachina'],['WHAT I DID','Post production']],
-   azioni:[['LEARN MORE','https://www.buccellati.com/it_it/prince-of-goldsmiths']]},
+   azioni:[['LEARN MORE','https://www.buccellati.com/it_it/prince-of-goldsmiths'],['WATCH MORE','https://vimeo.com/1146882692']]},
 
   {titolo:'Sorolla a través de la luz', img:'img/multimedia/10_sorolla.jpg',
    dati:[['GENRE','Immersive Exhibition'],['LENGHT','15’00’’'],['YEAR','2023'],['COUNTRY','Spain'],['WHERE','Palazzo Reale, Madrid & Fundación Bancaja, Valencia'],['FOR WHOM','Karmachina'],['WHAT I DID','Post production']],
